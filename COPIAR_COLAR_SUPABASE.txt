@@ -1,0 +1,67 @@
+================================================================================
+                    SOLUÇÃO FINAL - COPIAR E COLAR NO SUPABASE
+================================================================================
+
+INSTRUÇÕES:
+1. Abra Supabase Dashboard: https://supabase.com/dashboard
+2. Selecione projeto "blopcuugcawqvgdctjwz"
+3. Vá em SQL Editor → New Query
+4. APAGUE TUDO que estiver lá
+5. COPIE TODO O SQL ABAIXO
+6. Clique em RUN
+7. Se aparecer "Storage Audios Configurado com Sucesso!" → PRONTO!
+
+================================================================================
+                                 SQL PARA COPIAR
+================================================================================
+
+-- Criar bucket audios
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('audios', 'audios', true)
+ON CONFLICT (id) DO UPDATE SET public = true;
+
+-- Habilitar RLS
+ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+
+-- Policy 1: Leitura pública
+DO $$
+BEGIN
+  CREATE POLICY "storage_audios_read" 
+    ON storage.objects FOR SELECT 
+    USING (bucket_id = 'audios');
+EXCEPTION WHEN DUPLICATE_OBJECT THEN NULL;
+END $$;
+
+-- Policy 2: Upload autenticado
+DO $$
+BEGIN
+  CREATE POLICY "storage_audios_upload" 
+    ON storage.objects FOR INSERT 
+    WITH CHECK (bucket_id = 'audios' AND auth.role() = 'authenticated');
+EXCEPTION WHEN DUPLICATE_OBJECT THEN NULL;
+END $$;
+
+-- Policy 3: Delete autenticado
+DO $$
+BEGIN
+  CREATE POLICY "storage_audios_delete" 
+    ON storage.objects FOR DELETE 
+    USING (bucket_id = 'audios' AND auth.role() = 'authenticated');
+EXCEPTION WHEN DUPLICATE_OBJECT THEN NULL;
+END $$;
+
+-- Verificação
+SELECT 'Storage Audios Configurado com Sucesso!' as status,
+       (SELECT COUNT(*) FROM storage.buckets WHERE id = 'audios') as bucket_existe,
+       (SELECT COUNT(*) FROM pg_policies WHERE schemaname = 'storage' AND tablename = 'objects') as total_policies;
+
+================================================================================
+                            DEPOIS DE EXECUTAR
+================================================================================
+
+1. Volte para a aplicação (http://localhost:5173)
+2. Vá para /publicar
+3. Faça upload de um MP3
+4. Deve funcionar agora! 🎉
+
+Se ainda não funcionar, compartilhe o erro exato que aparecer no console (F12).

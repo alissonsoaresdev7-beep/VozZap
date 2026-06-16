@@ -1,0 +1,78 @@
+================================================================================
+                    GUIA: CONFIGURAR STORAGE VIA INTERFACE VISUAL
+================================================================================
+
+PROBLEMA: SQL não consegue fazer ALTER TABLE na tabela storage.objects
+SOLUÇÃO: Usar a interface visual do Supabase (muito mais seguro!)
+
+================================================================================
+                              PASSO A PASSO
+================================================================================
+
+PASSO 1: Vá para Storage
+─────────────────────────
+1. Abra: https://supabase.com/dashboard/project/blopcuugcawqvgdctjwz
+2. Clique em "Storage" (menu esquerdo)
+3. Você deve ver a lista de buckets
+
+
+PASSO 2: Criar Bucket "audios"
+──────────────────────────────
+1. Clique no botão "New bucket" (canto superior direito)
+2. Nome: audios
+3. Public bucket: ✅ MARQUE ESTA OPÇÃO
+4. Clique em "Create bucket"
+
+
+PASSO 3: Configurar Policies
+───────────────────────────────
+1. Na lista de buckets, clique em "audios" para abri-lo
+2. Clique em "Policies" (aba no topo)
+3. Clique em "New policy" ou "Create policy"
+
+   === POLICY 1: SELECT (Leitura Pública) ===
+   - Choose an action: SELECT
+   - For users in role: public
+   - Definition: Leave empty (permite todos)
+   - Click "Save policy"
+
+   === POLICY 2: INSERT (Upload Autenticado) ===
+   - Choose an action: INSERT
+   - For users in role: authenticated
+   - Definition: Leave empty
+   - Click "Save policy"
+
+   === POLICY 3: DELETE (Delete Autenticado) ===
+   - Choose an action: DELETE
+   - For users in role: authenticated
+   - Definition: Leave empty
+   - Click "Save policy"
+
+
+PASSO 4: Verificar
+──────────────────
+1. Volte para o Supabase Storage (clique em "audios")
+2. Você deve ver 3 policies listadas:
+   ✓ SELECT (public)
+   ✓ INSERT (authenticated)
+   ✓ DELETE (authenticated)
+
+
+PRONTO! ✅
+───────────
+
+Agora o bucket está configurado. Teste o upload:
+1. Volte para http://localhost:5173/publicar
+2. Selecione um MP3
+3. Clique em "Publicar Áudio"
+4. Deve funcionar agora!
+
+
+ALTERNATIVA (Se preferir CLI):
+───────────────────────────────
+Use Supabase CLI para dar as permissões:
+
+  npx supabase link --project-ref blopcuugcawqvgdctjwz
+  npx supabase db push
+
+Mas a interface visual é mais confiável!

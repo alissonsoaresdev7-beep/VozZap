@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+/* ====================================================
+   VozZap - Variáveis CSS e Tema Global
+   ==================================================== */
+
+@layer base {
+  :root {
+    /* Paleta VozZap */
+    --vz-green:       #25D366;
+    --vz-green-dark:  #075E54;
+    --vz-beige:       #ECE5DD;
+    --vz-white:       #FFFFFF;
+    --vz-black:       #111827;
+
+    /* Tema claro (padrão) */
+    --background:         #ECE5DD;
+    --foreground:         #111827;
+    --card:               #FFFFFF;
+    --card-foreground:    #111827;
+    --popover:            #FFFFFF;
+    --popover-foreground: #111827;
+    --primary:            #25D366;
+    --primary-foreground: #FFFFFF;
+    --secondary:          #075E54;
+    --secondary-foreground: #FFFFFF;
+    --muted:              #D9D2CA;
+    --muted-foreground:   #6B7280;
+    --accent:             #25D366;
+    --accent-foreground:  #FFFFFF;
+    --destructive:        #EF4444;
+    --destructive-foreground: #FFFFFF;
+    --border:             #C8C1B8;
+    --input:              #FFFFFF;
+    --ring:               #25D366;
+    --radius:             0.5rem;
+  }
+
+  .dark {
+    /* Tema escuro */
+    --background:         #111827;
+    --foreground:         #FFFFFF;
+    --card:               #1F2937;
+    --card-foreground:    #FFFFFF;
+    --popover:            #1F2937;
+    --popover-foreground: #FFFFFF;
+    --primary:            #25D366;
+    --primary-foreground: #111827;
+    --secondary:          #075E54;
+    --secondary-foreground: #FFFFFF;
+    --muted:              #374151;
+    --muted-foreground:   #9CA3AF;
+    --accent:             #25D366;
+    --accent-foreground:  #111827;
+    --destructive:        #EF4444;
+    --destructive-foreground: #FFFFFF;
+    --border:             #374151;
+    --input:              #374151;
+    --ring:               #25D366;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Scrollbar customizada */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--muted);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--muted-foreground);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+  }
+
+  /* Focus visível para acessibilidade */
+  *:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/* ====================================================
+   Animações e transições globais
+   ==================================================== */
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .bg-background    { background-color: var(--background); }
+  .bg-card          { background-color: var(--card); }
+  .bg-primary       { background-color: var(--primary); }
+  .bg-secondary     { background-color: var(--secondary); }
+  .bg-muted         { background-color: var(--muted); }
+  .bg-destructive   { background-color: var(--destructive); }
+
+  .text-foreground         { color: var(--foreground); }
+  .text-card-foreground    { color: var(--card-foreground); }
+  .text-primary            { color: var(--primary); }
+  .text-secondary          { color: var(--secondary); }
+  .text-muted-foreground   { color: var(--muted-foreground); }
+  .text-primary-foreground { color: var(--primary-foreground); }
+  .text-destructive        { color: var(--destructive); }
+
+  .border-border  { border-color: var(--border); }
+  .border-primary { border-color: var(--primary); }
+  .ring-ring      { --tw-ring-color: var(--ring); }
+
+  /* Audio progress bar animation */
+  @keyframes pulse-green {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  .animate-pulse-green {
+    animation: pulse-green 1.5s ease-in-out infinite;
+  }
+
+  /* Slide in animation */
+  @keyframes slideInUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+
+  .animate-slide-in {
+    animation: slideInUp 0.3s ease-out;
+  }
+
+  /* Toast slide in */
+  @keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+  }
+
+  .animate-toast {
+    animation: slideInRight 0.3s ease-out;
+  }
+}

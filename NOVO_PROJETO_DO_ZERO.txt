@@ -1,0 +1,187 @@
+================================================================================
+                    GUIA: NOVO PROJETO DO ZERO
+================================================================================
+
+RESUMO DO PROCESSO:
+1. ❌ Deletar projeto atual Supabase
+2. ✨ Criar novo projeto Supabase
+3. 📋 Copiar credenciais
+4. 🔑 Atualizar .env
+5. 🗄️  Rodar 4 SQLs no Supabase SQL Editor (um por um)
+6. 💾 Criar bucket e policies
+7. 🚀 Testar upload
+
+================================================================================
+                       PASSO 1: DELETAR PROJETO ATUAL
+================================================================================
+
+1. Abra: https://supabase.com/dashboard
+2. Selecione o projeto atual (blopcuugcawqvgdctjwz)
+3. Vá em Settings → General
+4. Scroll até "Delete Project"
+5. Clique "Delete project"
+6. Digite o nome do projeto para confirmar
+7. Clique "Delete"
+⏳ Aguarde alguns minutos...
+
+
+================================================================================
+                      PASSO 2: CRIAR NOVO PROJETO
+================================================================================
+
+1. Na dashboard, clique "New project"
+2. Preencha:
+   - Project name: vozzap (ou outro nome)
+   - Database password: (gere uma forte)
+   - Region: (selecione mais próximo de você)
+3. Clique "Create new project"
+⏳ Aguarde 2-3 minutos até ficar pronto...
+
+
+================================================================================
+                      PASSO 3: COPIAR CREDENCIAIS
+================================================================================
+
+Quando o projeto estiver pronto:
+
+1. Vá em Project Settings (ícone de engrenagem)
+2. Clique em "API"
+3. Você verá:
+   - Project URL (copie isto)
+   - Anon public key (copie isto)
+
+
+================================================================================
+                       PASSO 4: ATUALIZAR .env
+================================================================================
+
+Abra o arquivo .env na raiz do projeto e coloque:
+
+VITE_SUPABASE_URL=<COLA_A_URL_AQUI>
+VITE_SUPABASE_ANON_KEY=<COLA_A_CHAVE_AQUI>
+
+Exemplo:
+VITE_SUPABASE_URL=https://abc123xyz.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+
+================================================================================
+                    PASSO 5: RODAR SQLs (UM POR UM)
+================================================================================
+
+Para cada SQL abaixo:
+1. Abra: https://supabase.com/dashboard/project/XXX/sql/new
+2. Clique "New query"
+3. COPIE TODO o conteúdo do arquivo SQL
+4. COLE no editor
+5. Clique "Run"
+6. AGUARDE até aparecer "Success" ou similar
+7. VOLTE ao passo 1 para o próximo SQL
+
+═══════════════════════════════════════════════════════════════════════════════
+
+SQL #1: 001_tables.sql
+─────────────────────────
+Arquivo: supabase/migrations/001_tables.sql
+O quê faz: Cria todas as tabelas (profiles, posts, follows, likes, comments, messages)
+
+
+SQL #2: 002_policies.sql
+───────────────────────
+Arquivo: supabase/migrations/002_policies.sql
+O quê faz: Configura Row Level Security (RLS) em todas as tabelas
+
+
+SQL #3: 003_storage.sql
+──────────────────────
+Arquivo: supabase/migrations/003_storage.sql
+O quê faz: Cria tabelas adicionais se necessário
+
+
+SQL #4: 004_storage_setup.sql
+────────────────────────────
+Arquivo: supabase/migrations/004_storage_setup.sql
+O quê faz: Tenta criar o bucket (pode falhar, é normal)
+
+✅ Depois de todos os 4 SQLs rodarem, continue...
+
+
+================================================================================
+                   PASSO 6: CRIAR BUCKET "audios"
+================================================================================
+
+1. Supabase Dashboard → Storage
+2. Clique "New bucket"
+3. Nome: audios
+4. ✅ Marque "Public bucket"
+5. Clique "Create bucket"
+6. Clique em "audios" para abrir
+7. Vá em "Policies" (aba no topo)
+8. Crie 3 policies:
+
+   POLICY 1: SELECT (Leitura pública)
+   ─────────────────────────────────
+   - Choose action: SELECT
+   - Role: public
+   - Click "Create"
+
+   POLICY 2: INSERT (Upload)
+   ─────────────────────────
+   - Choose action: INSERT
+   - Role: authenticated
+   - Click "Create"
+
+   POLICY 3: DELETE (Deletar)
+   ──────────────────────────
+   - Choose action: DELETE
+   - Role: authenticated
+   - Click "Create"
+
+✅ Bucket está pronto!
+
+
+================================================================================
+                        PASSO 7: TESTAR
+================================================================================
+
+1. Terminal: npm run dev
+2. Navegador: http://localhost:5173/publicar
+3. Selecione um MP3
+4. Clique "Publicar Áudio"
+5. Deve funcionar agora! 🎉
+
+
+================================================================================
+                      CHECKLIST FINAL
+================================================================================
+
+Antes de testar, verifique:
+
+☑️ Projeto Supabase novo criado
+☑️ Credenciais copiadas
+☑️ .env atualizado com URL e chave
+☑️ SQL #1 (001_tables.sql) rodou sem erro
+☑️ SQL #2 (002_policies.sql) rodou sem erro
+☑️ SQL #3 (003_storage.sql) rodou (pode falhar, é ok)
+☑️ SQL #4 (004_storage_setup.sql) rodou (pode falhar, é ok)
+☑️ Bucket "audios" criado manualmente
+☑️ 3 policies configuradas (SELECT, INSERT, DELETE)
+
+Se tudo isso estiver ✅, o upload vai funcionar!
+
+
+================================================================================
+                       DÚVIDAS COMUNS
+================================================================================
+
+P: "SQL falhou com erro sobre trigger"
+R: Normal! Alguns SQLs podem falhar na primeira rodada. Continua mesmo assim.
+
+P: "Bucket "audios" não aparece na interface"
+R: Cria manualmente! Clique "New bucket" e siga os passos acima.
+
+P: "Upload ainda não funciona"
+R: Abra F12 (console) e faça upload. Compartilhe o erro exato que aparecer.
+
+P: "Posso deletar o projeto e refazer?"
+R: Sim, pode fazer o processo completo de novo!

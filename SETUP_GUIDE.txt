@@ -1,0 +1,119 @@
+================================================================================
+                        SETUP AUTOMATIZADO - VOZZAP
+================================================================================
+
+Dois scripts para configurar o projeto automaticamente:
+
+1️⃣ setup.ps1 - MANUAL (Recomendado se você não tem Supabase CLI)
+2️⃣ setup-auto.ps1 - AUTOMÁTICO (Usa Supabase CLI)
+
+================================================================================
+                             OPÇÃO 1: MANUAL
+================================================================================
+
+Quando usar:
+  - Você já criou um novo projeto no Supabase Dashboard
+  - Você quer controlar cada passo
+
+Como usar:
+  1. PowerShell → Navigate até o projeto
+  2. Execute: .\setup.ps1
+  3. Digite as credenciais do novo projeto:
+     - URL (ex: https://xxxxx.supabase.co)
+     - Chave Anon (ex: eyJ...)
+  4. O script atualiza .env
+  5. Para cada SQL, copie o conteúdo e execute no Supabase Dashboard
+  6. Depois configure o storage bucket manualmente
+
+Vantagem: Total controle, entende cada passo
+
+
+================================================================================
+                           OPÇÃO 2: AUTOMÁTICO
+================================================================================
+
+Quando usar:
+  - Você quer fazer TUDO automaticamente
+  - Você já instalou Supabase CLI
+
+Como instalar Supabase CLI:
+  npm install -g supabase
+
+Como usar:
+  1. PowerShell → Navigate até o projeto
+  2. Execute: .\setup-auto.ps1
+  3. O script fará login no Supabase
+  4. Digite o project ref e credenciais
+  5. Tudo será configurado automaticamente! 🎉
+
+Vantagem: Rápido, automático, sem copiar/colar
+
+
+================================================================================
+                         PASSO FINAL: STORAGE
+================================================================================
+
+Depois que os scripts rodarem, você AINDA precisa configurar o Storage:
+
+1. Abra: https://supabase.com/dashboard/project/XXX/storage
+2. Clique "New bucket"
+3. Nome: audios
+4. ✅ Marque "Public bucket"
+5. Clique "Create"
+6. Configure 3 policies:
+   - SELECT (everyone)
+   - INSERT (authenticated)
+   - DELETE (authenticated)
+
+
+================================================================================
+                         TESTANDO A APLICAÇÃO
+================================================================================
+
+Depois que tudo estiver configurado:
+
+1. npm run dev
+2. Vá para http://localhost:5173/publicar
+3. Faça upload de um MP3
+4. Deve funcionar! 🎉
+
+
+================================================================================
+                             TROUBLESHOOTING
+================================================================================
+
+Se algo der errado:
+
+1. Verifique o .env está correto:
+   - VITE_SUPABASE_URL deve ser a URL certa
+   - VITE_SUPABASE_ANON_KEY deve ser a chave certa
+
+2. Verifique se as migrations rodaram:
+   - Abra Supabase Dashboard
+   - Vá em SQL → query history
+   - Procure pelas migrations
+
+3. Verifique se o bucket foi criado:
+   - Supabase Dashboard → Storage
+   - Deve existir um bucket "audios"
+   - Deve ter 3 policies
+
+4. Se o upload ainda não funciona:
+   - Abra F12 no navegador (console)
+   - Tente fazer upload
+   - Veja a mensagem de erro exata
+   - Compartilhe conosco
+
+
+================================================================================
+                         COMEÇAR AGORA
+================================================================================
+
+Escolha uma opção:
+
+➡️  OPÇÃO 1 (Manual, recomendado):
+  .\setup.ps1
+
+➡️  OPÇÃO 2 (Automático, requer CLI):
+  npm install -g supabase
+  .\setup-auto.ps1
