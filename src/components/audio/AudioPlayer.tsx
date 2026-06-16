@@ -201,17 +201,23 @@ export function AudioPlayer({ src, title, duration = 0, compact = false, classNa
       {/* Ondas de áudio animadas quando tocando */}
       {isPlaying && (
         <div className="flex items-center justify-center gap-0.5 mt-3 h-4" aria-hidden="true">
-          {Array.from({ length: 20 }).map((_, i) => (
-            <div
-              key={i}
-              className="w-0.5 bg-[#25D366] rounded-full animate-pulse-green"
-              style={{
-                height: `${Math.random() * 100}%`,
-                animationDelay: `${i * 0.05}s`,
-                minHeight: '4px',
-              }}
-            />
-          ))}
+          {Array.from({ length: 20 }).map((_, i) => {
+            // Gera altura consistente baseada no índice usando seeded "random"
+            const seed = (i * 12.9898) % 1;
+            const pseudoRandom = Math.sin(seed) * 0.5 + 0.5;
+            const height = 20 + pseudoRandom * 80; // Entre 20% e 100%
+            return (
+              <div
+                key={`wave-${i}`}
+                className="w-0.5 bg-[#25D366] rounded-full animate-pulse-green"
+                style={{
+                  height: `${height}%`,
+                  animationDelay: `${i * 0.05}s`,
+                  minHeight: '4px',
+                }}
+              />
+            );
+          })}
         </div>
       )}
     </div>

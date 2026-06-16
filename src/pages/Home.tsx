@@ -44,7 +44,7 @@ export function Home() {
       {isLoading && (
         <div className="space-y-4">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="bg-card rounded-2xl border border-border p-4 animate-pulse">
+            <div key={`skeleton-${i}`} className="bg-card rounded-2xl border border-border p-4 animate-pulse">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 rounded-full bg-muted" />
                 <div className="space-y-1 flex-1">

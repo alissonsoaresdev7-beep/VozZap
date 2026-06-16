@@ -127,7 +127,7 @@ export function Explore() {
         {isLoading && (
           <div className="space-y-3">
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="bg-card rounded-2xl border border-border p-4 animate-pulse">
+              <div key={`skeleton-loading-${i}`} className="bg-card rounded-2xl border border-border p-4 animate-pulse">
                 <div className="h-4 bg-muted rounded w-1/2 mb-2" />
                 <div className="h-3 bg-muted rounded w-3/4" />
               </div>
